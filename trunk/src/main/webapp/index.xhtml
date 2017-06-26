@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body>
+	<p:ajaxStatus onstart="statusDialog.show();"
+		oncomplete="statusDialog.hide();" />
+
+	<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+		draggable="false" closable="false">
+		<label>Please wait...</label>
+	</p:dialog>
+	<h:form>
+		<div style="width: 100%; float: left;">
+			<h:inputTextarea id="txtDocs"
+				style="width:100%;float:left;height:300px;margin-bottom:20px;"
+				value="#{myBean.docs}" />
+			<p:commandButton style="float:left;" value="index"
+				actionListener="#{myBean.actionIndex}"></p:commandButton>
+			<p:commandButton style="float:left;" value="Remove all index" update="txtResult,txtDocs,txtSearch"
+				actionListener="#{myBean.removeIndex}"></p:commandButton>
+		</div>
+		<div style="width: 100%; float: left; margin-top: 30px;">
+			<h:inputText id="txtSearch"
+				style="width:300px;;float:left;height:30px;margin-bottom:20px;"
+				value="#{myBean.txtSearch}" />
+			<p:commandButton update="txtResult" value="search"
+				style="height: 37px;margin-left: 10px;"
+				actionListener="#{myBean.doSearch}"></p:commandButton>
+
+		</div>
+		<div style="width: 100%; float: left; margin-top: 30px;">
+			<label
+				style="float: left; font-size: 25px; font-weight: bold; width: 100%;">Result</label>
+			<h:inputTextarea id="txtResult" value="#{myBean.txtResult}"
+				style="width:100%;float:left;height:300px;margin-bottom:20px;"></h:inputTextarea>
+		</div>
+	</h:form>
+</h:body>
+</html>
