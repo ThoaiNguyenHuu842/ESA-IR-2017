@@ -4,14 +4,15 @@ import java.io.Serializable;
 
 import org.apache.lucene.search.ScoreDoc;
 
+
 /**
  * @author ThoaiNH
- *
+ * create Jun 27, 2017
  */
-public class OhhayScoreDoc implements Serializable{
+public class MyScoreDoc implements Serializable{
 	private ScoreDoc scoreDoc;
 	
-	public OhhayScoreDoc(ScoreDoc scoreDoc) {
+	public MyScoreDoc(ScoreDoc scoreDoc) {
 		super();
 		this.scoreDoc = scoreDoc;
 	}

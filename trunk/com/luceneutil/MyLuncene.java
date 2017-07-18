@@ -17,10 +17,12 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 /**
- * @author ThoaiNH create 06/03/2015 topic indexer
+ * @author ThoaiNH 
+ * create 06/03/2015 
+ * topic indexer
  */
-public class M150Luncene extends QbLuceneBase {
-	public M150Luncene(String indexPath) {
+public class MyLuncene extends MyLuceneBase {
+	public MyLuncene(String indexPath) {
 		super(indexPath);
 		// TODO Auto-generated constructor stub
 	}

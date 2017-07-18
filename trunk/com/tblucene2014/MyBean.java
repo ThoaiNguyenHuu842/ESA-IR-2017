@@ -7,26 +7,34 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import luceneutil.M150Luncene;
+import org.apache.log4j.Logger;
+
+import luceneutil.MyLuncene;
 import luceneutil.QueryFactory;
 
 /**
- * @author ThoaiNH create Jul 7, 2016
+ * @author ThoaiNH 
+ * create Jul 7, 2016
+ * controller  for all function
  */
 @ManagedBean(name = "myBean")
 @ViewScoped
 public class MyBean implements Serializable {
-	private String indexPath = "D:/learning/HK2/IR/seminar/LSI/DEMO/lucene/index";
-	private String docs;
+	private static Logger log = Logger.getLogger(MyBean.class);
+	private String indexPath = "D:/learning/HK2/IR/seminar/LSI/DEMO/lucene/index2";
+	private String docs;//input documents to index (JSON - String )
 	private String txtSearch;
 	private String txtResult;
-
+	
+	/**
+	 * create index
+	 */
 	public void actionIndex() {
 		try {
-			M150Luncene luncene = new M150Luncene(indexPath);
+			MyLuncene luncene = new MyLuncene(indexPath);
 			luncene.createIndex();
 			luncene.createIndexWriter();
-			System.out.println(docs);
+			log.info(docs);
 			org.json.JSONArray jsonArray = new org.json.JSONArray(docs.trim());
 			// myWriterManager.luceneUtil.createIndexWriter();
 			/**
@@ -35,17 +43,21 @@ public class MyBean implements Serializable {
 			for (int i = 0; i < jsonArray.length(); i++) {
 				String text = jsonArray.getJSONObject(i).getString("contentSegment");
 				int id = jsonArray.getJSONObject(i).getInt("id");
-				System.out.println("---indexing:" + text);
+				log.info("---indexing:" + text);
 				luncene.add(text, id);
 			}
 			luncene.closeIndexWriter();
 
 		} catch (Exception e) {
-			e.printStackTrace(); // To change body of catch statement use File |
-									// Settings | File Templates.
+			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * remove all file in directory
+	 * @param directory
+	 * @return
+	 */
 	public static boolean deleteDirectory(File directory) {
 		if (directory.exists()) {
 			File[] files = directory.listFiles();
@@ -62,6 +74,9 @@ public class MyBean implements Serializable {
 		return (directory.delete());
 	}
 
+	/**
+	 * remove index directory
+	 */
 	public void removeIndex() {
 		try {
 			File directory = new File("D:\\learning\\HK2\\IR\\seminar\\LSI\\DEMO\\lucene\\index");
@@ -76,16 +91,19 @@ public class MyBean implements Serializable {
 		}
 	}
 
+	/**
+	 * retrieval docs
+	 */
 	public void doSearch() {
 		try {
-			M150Luncene luncene = new M150Luncene(indexPath);
+			MyLuncene luncene = new MyLuncene(indexPath);
 			List<String> result = luncene.search(QueryFactory.create("TEXT", txtSearch), 100);
 			txtResult = "";
 			for (String s : result) {
 				txtResult += s;
 				txtResult += "\n";
 			}
-			System.out.println(txtResult);
+			log.info(txtResult);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

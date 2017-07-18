@@ -1,5 +1,6 @@
 package luceneutil;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
@@ -14,14 +15,17 @@ import org.apache.lucene.util.Version;
  * query builder
  */
 public class QueryFactory {
-	/*
-	 * tim kiem theo keyword, so dt, email, ho ten
+	private static Logger log = Logger.getLogger(QueryFactory.class);
+	/**
+	 * @param field
+	 * @param value
+	 * @return
 	 */
 	public static Query create(String field, String value) {
 		try {
 			//search by phone, name
 			String query = field + ":"+ value + "";
-			System.out.println(query);
+			log.info(query);
 			QueryParser queryParser = new QueryParser(Version.LUCENE_46, null,
 					new StandardAnalyzer(Version.LUCENE_46));
 			Query q;

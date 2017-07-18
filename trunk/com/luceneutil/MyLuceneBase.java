@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
@@ -19,20 +20,22 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
+
 /**
  * @author ThoaiNH
  * create 09/09/2014
  * base indexer
  */
-public class QbLuceneBase {
+public class MyLuceneBase {
+	private static Logger log = Logger.getLogger(MyLuceneBase.class);
 	protected IndexWriter writer;
 	protected String indexPath;
-	public QbLuceneBase(String indexPath) {
+	public MyLuceneBase(String indexPath) {
 		super();
 		this.indexPath = indexPath;
-		System.out.println("---path:" + indexPath);
+		log.info("---path:" + indexPath);
 	}
-	/*
+	/**
 	 * create index 
 	 */
 	public void createIndex() {
@@ -63,7 +66,7 @@ public class QbLuceneBase {
 			e.printStackTrace();
 		}
 	}
-	/*
+	/**
 	 * create index writer
 	 */
 	public void createIndexWriter() {
@@ -87,12 +90,12 @@ public class QbLuceneBase {
 	 * @param mode = 1: search by web (save session), 2: search by service
 	 * @return list scoreDoc
 	 */
-	public List<OhhayScoreDoc> search(Query query, int maxHit, int mode) {
-		List<OhhayScoreDoc> listScoreDocs = new ArrayList<OhhayScoreDoc>();
+	public List<MyScoreDoc> search(Query query, int maxHit, int mode) {
+		List<MyScoreDoc> listScoreDocs = new ArrayList<MyScoreDoc>();
 		// search lucene
 		Directory directory;
 		try {
-			System.out.println("--index path:" + indexPath);
+			log.info("--index path:" + indexPath);
 			directory = FSDirectory.open(new File(indexPath));
 			IndexReader indexReader = DirectoryReader.open(directory);
 			IndexSearcher indexSearcher = new IndexSearcher(indexReader);
@@ -101,7 +104,7 @@ public class QbLuceneBase {
 			indexSearcher.search(query, collector);
 			ScoreDoc[] hitsDocs = collector.topDocs().scoreDocs;
 			for (ScoreDoc scoreDoc : hitsDocs) {
-				OhhayScoreDoc doc = new OhhayScoreDoc(scoreDoc);
+				MyScoreDoc doc = new MyScoreDoc(scoreDoc);
 				listScoreDocs.add(doc);
 			}
 		} catch (IOException e) {

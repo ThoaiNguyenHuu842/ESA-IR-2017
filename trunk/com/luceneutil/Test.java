@@ -1,6 +1,7 @@
 package luceneutil;
 
 import java.io.File;
+import java.util.List;
 
 public class Test {
 	public static boolean deleteDirectory(File directory) {
@@ -21,8 +22,19 @@ public class Test {
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		File file = new File("D:\\learning\\HK2\\IR\\seminar\\LSI\\DEMO\\lucene\\index");
-deleteDirectory(file);
+		try {
+			String indexPath = "D:/learning/HK2/IR/seminar/LSI/DEMO/lucene/index";
+			MyLuncene luncene = new MyLuncene(indexPath);
+			List<String> result = luncene.search(QueryFactory.create("TEXT", "là"), 100);
+			String txtResult = "";
+			for (String s : result) {
+				txtResult += s;
+				txtResult += "\n";
+			}
+			System.out.println(txtResult);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		System.out.println("xong");
 	}
 
