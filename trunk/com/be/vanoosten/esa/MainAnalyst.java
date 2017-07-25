@@ -26,16 +26,11 @@ public class MainAnalyst {
 			/*
 			 * text similarity 
 			 */
-			/*System.out.println(semanticSimilarityTool.findSemanticSimilarity("american", "american"));
-			System.out.println(semanticSimilarityTool.findSemanticSimilarity("american", "vietnam"));
-			System.out.println(semanticSimilarityTool.findSemanticSimilarity("american", "ho chi minh"));
-			System.out.println(semanticSimilarityTool.findSemanticSimilarity("vietnam", "ho chi minh"));
-			System.out.println(semanticSimilarityTool.findSemanticSimilarity("sai gon", "ho chi minh"));
-			System.out.println(semanticSimilarityTool.findSemanticSimilarity("le duan", "ho chi minh"));
-			System.out.println(semanticSimilarityTool.findSemanticSimilarity("nguyen ai quoc", "ho chi minh"));*/
+			System.out.println(semanticSimilarityTool.findSemanticSimilarity("pretty", "beautiful"));
+			System.out.println(semanticSimilarityTool.findSemanticSimilarity("nguyen tat thanh", "vo nguyen giap"));
 			
-			vectorizer.vectorize("Leopard attacking and killing different animals").topConcepts(5);
-			System.out.println(semanticSimilarityTool.findSemanticSimilarity("black panther", "x-men"));
+			/*ConceptVector conceptVector = vectorizer.vectorize("Leopard attacking and killing different animals");
+			System.out.println(semanticSimilarityTool.findSemanticSimilarity("black panther", "x-men"));*/
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
