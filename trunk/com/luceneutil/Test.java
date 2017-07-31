@@ -20,12 +20,7 @@ public class Test {
 	    return(directory.delete());
 	}
 	public static void main(String[] args) {
-		try {
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		System.out.println((String.join(File.separator, "D://learning//Master final project//Code//index-vi")));
 		System.out.println("xong");
 	}
 

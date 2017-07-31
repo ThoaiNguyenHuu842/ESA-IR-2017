@@ -5,6 +5,7 @@ import be.vanoosten.esa.tools.ConceptVector;
 /**
  * @author ThoaiNH
  * create Jul 18, 2017
+ * document index storage ESA-based Retrieval
  */
 public class ConceptDoc implements Comparable<ConceptDoc>{
 	private String text;

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.queryparser.classic.QueryParser;
@@ -34,7 +35,13 @@ public abstract class WikiFactory implements AutoCloseable {
     protected WikiFactory(File indexRootPath, File dumpFile, CharArraySet stopWords) {
         this.indexRootPath = indexRootPath;
         this.dumpFile = dumpFile;
-        this.stopWords = stopWords;
+        //this.stopWords = stopWords;
+        String s = "bị,bởi,cả,các,cái,cần,càng,chỉ,chiếc,cho,chứ,chưa,chuyện,có,có_thể,cứ,của,cùng,cũng,đã,đang,đây,để,đến_nỗi,đều,điều,do,đó,được,dưới,gì,khi,không,là,lại,lên,lúc,mà,mỗi,một_cách,này,nên,nếu,ngay,nhiều,như,nhưng,những,nơi,nữa,phải,qua,ra,rằng,rằng,rất,rất,rồi,sau,sẽ,so,sự,tại,theo,thì,trên,trước,từ,từng,và,vẫn,vào,vậy,vì,việc,với,vừa";
+    	CharArraySet stopSet = CharArraySet.copy(Version.LUCENE_48, StandardAnalyzer.STOP_WORDS_SET);
+    	String ss[] = s.split(",");
+    	for(String stopWord: ss)
+    		stopSet.add(stopWord);
+        this.stopWords = stopSet;
     }
 
     public final File getIndexRootPath() {

@@ -13,8 +13,8 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.util.Version;
 
+import luceneutil.ApplicationConstant;
 import luceneutil.MyLuncene;
-import luceneutil.QueryFactory;
 
 /**
  * @author ThoaiNH 
@@ -25,7 +25,6 @@ import luceneutil.QueryFactory;
 @ViewScoped
 public class MyBean implements Serializable {
 	private static Logger log = Logger.getLogger(MyBean.class);
-	private String indexPath = "D:/learning/HK2/IR/seminar/LSI/DEMO/lucene/index4";
 	private String docs;//input documents to index (JSON - String )
 	private String txtSearch;
 	private String txtResult;
@@ -35,10 +34,10 @@ public class MyBean implements Serializable {
 	 */
 	public void actionIndex() {
 		try {
-			File directory = new File(indexPath);
+			File directory = new File(ApplicationConstant.INDEX_PATH);
 			deleteDirectory(directory);
 			Thread.sleep(1000);
-			MyLuncene luncene = new MyLuncene(indexPath);
+			MyLuncene luncene = new MyLuncene(ApplicationConstant.INDEX_PATH);
 			luncene.createIndex();
 			luncene.createIndexWriter();
 			log.info(docs);
@@ -51,8 +50,8 @@ public class MyBean implements Serializable {
 				String text = jsonArray.getJSONObject(i).getString("contentSegment");
 				int id = jsonArray.getJSONObject(i).getInt("id");
 				log.info("---indexing:" + text);
-				luncene.add(text, id);
-				myESA.addToIndex(text);
+				luncene.add(text, id);//BOW index
+				myESA.addToIndex(text);//ESA index limit 100 concepts
 			}
 			luncene.closeIndexWriter();
 
@@ -90,7 +89,7 @@ public class MyBean implements Serializable {
 	public void removeIndex() {
 		log.info("---removeIndex");
 		try {
-			File directory = new File(indexPath);
+			File directory = new File(ApplicationConstant.INDEX_PATH);
 			deleteDirectory(directory);
 			this.docs = null;
 			this.txtResult = null;
@@ -103,12 +102,12 @@ public class MyBean implements Serializable {
 	}
 
 	/**
-	 * retrieval docs
+	 * retrieval docs BOW
 	 */
 	public void doSearch() {
 		log.info("---doSearch:" + txtSearch);
 		try {
-			MyLuncene luncene = new MyLuncene(indexPath);			
+			MyLuncene luncene = new MyLuncene(ApplicationConstant.INDEX_PATH);			
 			String query = "TEXT" + ":(" + txtSearch + ")";
 			QueryParser queryParser = new QueryParser(Version.LUCENE_48, null, new StandardAnalyzer(Version.LUCENE_48));
 			Query q = queryParser.parse(query);
@@ -142,14 +141,7 @@ public class MyBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	public String getIndexPath() {
-		return indexPath;
-	}
-
-	public void setIndexPath(String indexPath) {
-		this.indexPath = indexPath;
-	}
-
+	
 	public String getDocs() {
 		return docs;
 	}

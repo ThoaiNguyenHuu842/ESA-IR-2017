@@ -26,11 +26,14 @@ public class MainAnalyst {
 			/*
 			 * text similarity 
 			 */
-			System.out.println(semanticSimilarityTool.findSemanticSimilarity("pretty", "beautiful"));
-			System.out.println(semanticSimilarityTool.findSemanticSimilarity("nguyen tat thanh", "vo nguyen giap"));
-			
-			/*ConceptVector conceptVector = vectorizer.vectorize("Leopard attacking and killing different animals");
-			System.out.println(semanticSimilarityTool.findSemanticSimilarity("black panther", "x-men"));*/
+			//System.out.println(semanticSimilarityTool.findSemanticSimilarity("pretty", "beautiful"));
+			/*System.out.println(semanticSimilarityTool.findSemanticSimilarity("bạc liêu", "mỹ tho"));
+			System.out.println(semanticSimilarityTool.findSemanticSimilarity("bạc liêu", "cà mau"));
+			System.out.println(semanticSimilarityTool.findSemanticSimilarity("bạc liêu", "minh hải"));
+			System.out.println(semanticSimilarityTool.findSemanticSimilarity("lê trọng tấn", "hoàng minh thảo"));
+			System.out.println(semanticSimilarityTool.findSemanticSimilarity("lê trọng tấn", "trận đồng xoài"));*/
+			ConceptVector conceptVector = vectorizer.vectorize("linkin park");
+			System.out.println(conceptVector.topConcepts(10));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

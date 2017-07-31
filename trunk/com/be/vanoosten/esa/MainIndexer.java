@@ -49,15 +49,8 @@ import static org.apache.lucene.util.Version.LUCENE_48;
 public class MainIndexer {
 
     public static void main(String[] args) throws IOException, ParseException {
-        /*
-        String indexPath = String.join(File.separator, "D:", "Development", "esa", "nlwiki");
-        File wikipediaDumpFile = new File(String.join(File.separator, "D:", "Downloads", "nlwiki", "nlwiki-20140611-pages-articles-multistream.xml.bz2"));
-        String startTokens = "geheim anoniem auteur verhalen lezen schrijven wetenschappelijk artikel peer review";
-        */
         WikiFactory factory = new EnwikiFactory();
-        File indexPath = factory.getIndexRootPath();
         File wikipediaDumpFile = factory.getWikipediaDumpFile();
-        String startTokens = "secret anonymous author stories read write scientific article peer review";
         CharArraySet stopWords = factory.getStopWords();
 
         File termDocIndexDirectory = factory.getTermDocIndexDirectory();
@@ -66,6 +59,7 @@ public class MainIndexer {
         // The following lines are commented, because they can take a looong time.
         indexing(termDocIndexDirectory, wikipediaDumpFile, stopWords);
         createConceptTermIndex(termDocIndexDirectory, conceptTermIndexDirectory);
+        System.out.println("---xong---");
     }
 
     /**
