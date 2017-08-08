@@ -14,6 +14,8 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.util.Version;
 
 import luceneutil.ApplicationConstant;
+import luceneutil.ConceptDoc;
+import luceneutil.MyESA;
 import luceneutil.MyLuncene;
 
 /**
@@ -30,7 +32,7 @@ public class MyBean implements Serializable {
 	private String txtResult;
 	private MyESA myESA = new MyESA();
 	/**
-	 * create index
+	 * create index BOW and SESA
 	 */
 	public void actionIndex() {
 		try {
@@ -102,7 +104,7 @@ public class MyBean implements Serializable {
 	}
 
 	/**
-	 * retrieval docs BOW
+	 * retrieval BOW
 	 */
 	public void doSearch() {
 		log.info("---doSearch:" + txtSearch);
@@ -124,7 +126,7 @@ public class MyBean implements Serializable {
 	}
 	
 	/**
-	 * retrieval docs ESA
+	 * retrieval ESA
 	 */
 	public void doSearchESA() {
 		log.info("---doSearchESA:" + txtSearch);
