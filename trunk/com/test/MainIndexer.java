@@ -46,6 +46,7 @@ import be.vanoosten.esa.EnwikiFactory;
 import be.vanoosten.esa.WikiAnalyzer;
 import be.vanoosten.esa.WikiFactory;
 import be.vanoosten.esa.WikiIndexer;
+import be.vanoosten.esa.WikiReader;
 import be.vanoosten.esa.tools.SemanticSimilarityTool;
 
 import static org.apache.lucene.util.Version.LUCENE_48;
@@ -67,8 +68,8 @@ public class MainIndexer {
         // The following lines are commented, because they can take a looong time.
         indexing(termDocIndexDirectory, wikipediaDumpFile, stopWords);
         createConceptTermIndex(termDocIndexDirectory, conceptTermIndexDirectory);
-        log.info("total concepts indexed:"+WikiIndexer.numIndexed);//1656469
-        log.info("total concepts:"+WikiIndexer.numTotal);
+        log.info("total concepts indexed:"+WikiIndexer.numIndexed);//
+        log.info("total concepts:"+WikiReader.numTotal);
         log.info("---xong---");
     }
 
@@ -182,5 +183,8 @@ public class MainIndexer {
                 indexer.parseXmlDump(wikipediaDumpFile);
             }
         }
+    	/*Directory directory = FSDirectory.open(termDocIndexDirectory);
+    	WikiReader reader = new WikiReader(directory);
+    	reader.parseXmlDump(wikipediaDumpFile);*/
     }
 }

@@ -16,6 +16,7 @@ import be.vanoosten.esa.WikiFactory;
 import be.vanoosten.esa.tools.ConceptVector;
 import be.vanoosten.esa.tools.SemanticSimilarityTool;
 import be.vanoosten.esa.tools.Vectorizer;
+import luceneutil.ApplicationUtils;
 
 public class MainAnalyst {
 	private static Logger log = Logger.getLogger(MainAnalyst.class);
@@ -32,13 +33,16 @@ public class MainAnalyst {
 			 * text similarity 
 			 */
 			//log.info(semanticSimilarityTool.findSemanticSimilarity("pretty", "beautiful"));
-			/*log.info(semanticSimilarityTool.findSemanticSimilarity("bạc liêu", "mỹ tho"));
-			log.info(semanticSimilarityTool.findSemanticSimilarity("bạc liêu", "cà mau"));
+			
+			/*log.info(semanticSimilarityTool.findSemanticSimilarity("bạc liêu", "cà mau"));
 			log.info(semanticSimilarityTool.findSemanticSimilarity("bạc liêu", "minh hải"));
 			log.info(semanticSimilarityTool.findSemanticSimilarity("lê trọng tấn", "hoàng minh thảo"));
 			log.info(semanticSimilarityTool.findSemanticSimilarity("lê trọng tấn", "trận đồng xoài"));*/
-			ConceptVector conceptVector = vectorizer.vectorize("linkin park");
+			String s = "chiến tranh việt nam";//0.046913516
+			System.out.println(ApplicationUtils.getTokenString(s));
+			ConceptVector conceptVector = vectorizer.vectorize(s);
 			log.info(conceptVector.topConcepts(10));
+			log.info(semanticSimilarityTool.findSemanticSimilarity(s, "Việt Nam"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

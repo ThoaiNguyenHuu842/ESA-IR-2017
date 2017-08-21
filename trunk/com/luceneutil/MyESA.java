@@ -4,6 +4,7 @@ import static org.apache.lucene.util.Version.LUCENE_48;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +23,7 @@ import be.vanoosten.esa.tools.Vectorizer;
  * @author ThoaiNH
  * create Jul 18, 2017
  */
-public class MyESA {
+public class MyESA implements Serializable{
 	//conept index
 	public static List<ConceptDoc> conceptIndex = new ArrayList<ConceptDoc>();
 	private Vectorizer vectorizer;
@@ -45,10 +46,10 @@ public class MyESA {
 	/**
 	 * @param text
 	 */
-	public void addToIndex(String text){
+	public void addToIndex(String text, int id){
 		try {
 			ConceptVector conceptVector = vectorizer.vectorize(text);
-			ConceptDoc conceptDoc = new ConceptDoc(text, conceptVector, 0);
+			ConceptDoc conceptDoc = new ConceptDoc(text, conceptVector, 0, id);
 			conceptIndex.add(conceptDoc);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

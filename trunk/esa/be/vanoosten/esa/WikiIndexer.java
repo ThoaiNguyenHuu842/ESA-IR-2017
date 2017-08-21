@@ -82,7 +82,7 @@ public class WikiIndexer extends DefaultHandler implements AutoCloseable {
         indexWriter = new IndexWriter(directory, indexWriterConfig);
         String regex = "^[a-zA-z]+:.*";
         pat = Pattern.compile(regex);
-        setMinimumArticleLength(2000);
+        setMinimumArticleLength(ApplicationConstant.MINIMUM_ARTICLE_LENGTH);
     }
 
     public void parseXmlDump(String path) {
@@ -105,6 +105,17 @@ public class WikiIndexer extends DefaultHandler implements AutoCloseable {
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+    	//index only n concepts to test tokenizer VietName sentences
+    	if(numIndexed == 70000)
+    	{
+    		try {
+				indexWriter.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		throw new SAXException();
+    	}
         if ("page".equals(localName)) {
             inPage = true;
         } else if (inPage && "title".equals(localName)) {
@@ -127,16 +138,12 @@ public class WikiIndexer extends DefaultHandler implements AutoCloseable {
             String wikiText = content.toString();
             try {
                 numTotal++;
-                log.info("start index:" + numIndexed + "\t/ " + numTotal + "\t" + wikiTitle);
-                if(numTotal > 48230){
-	                boolean rs = index(wikiTitle, wikiText);
-	                log.info("--rs indexing:"+rs);
-	                if (rs) {
-	                    numIndexed++;
-	                    //if (numIndexed % 1000 == 0) {
-	                    log.info("end index:" + numIndexed + "\t/ " + numTotal + "\t" + wikiTitle);
-	                    //}
-	                }
+	            log.info("process for wiki article:" + numTotal + "\t" + wikiTitle);
+                boolean rs = index(wikiTitle, wikiText);
+                log.info("--rs indexing:"+rs);
+                if (rs) {
+                    numIndexed++;
+                    log.info("indexed:" + numIndexed + "\t/ " + numTotal + "\t" + wikiTitle);
                 }
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -160,30 +167,39 @@ public class WikiIndexer extends DefaultHandler implements AutoCloseable {
      */
     boolean index(String title, String wikiText) throws IOException {
         Matcher matcher = pat.matcher(title);
-        if (matcher.find() || title.startsWith("Lijst van ") || wikiText.length() < getMinimumArticleLength()) {
+        if (matcher.find() || title.startsWith("Bản mẫu:") || title.startsWith("Danh sách") 
+        		|| title.startsWith("Chủ đề:") || title.startsWith("Lijst van ") || title.startsWith("Thể loại:") || title.startsWith("Tập tin:") ||
+        		wikiText.length() < getMinimumArticleLength() || numTotal == 48230 || numTotal == 26680) {
+        	log.info("---index return false");
             return false;
         }
-        Document doc = new Document();
-        doc.add(new StoredField(TITLE_FIELD, title));
-        Analyzer analyzer = indexWriter.getAnalyzer();
-        if(ApplicationConstant.TOKENIZED_WIKI_CONTENT){
-        	String docToken = ApplicationUtils.getTokenString(wikiText);
-        	try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        	doc.add(new TextField(TEXT_FIELD, docToken, Field.Store.NO));
+        //đánh từ chị mục thứ 8000
+        if(numIndexed > 55000){
+	        Document doc = new Document();
+	        doc.add(new StoredField(TITLE_FIELD, title));
+	        Analyzer analyzer = indexWriter.getAnalyzer();
+	        if(ApplicationConstant.TOKENIZED_WIKI_CONTENT){
+	        	log.info("---getTokenString");
+	        	String docToken = ApplicationUtils.getTokenString(wikiText);
+	        	try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        	doc.add(new TextField(TEXT_FIELD, docToken, Field.Store.NO));
+	        }
+	        else
+	        	doc.add(new TextField(TEXT_FIELD, wikiText, Field.Store.NO));
+	        log.info("---save new document");
+	        indexWriter.addDocument(doc);
         }
-        else
-        	doc.add(new TextField(TEXT_FIELD, wikiText, Field.Store.NO));
-        indexWriter.addDocument(doc);
         return true;
     }
 
     @Override
     public void close() throws IOException {
+    	log.info("close sax parser");
         indexWriter.close();
     }
 

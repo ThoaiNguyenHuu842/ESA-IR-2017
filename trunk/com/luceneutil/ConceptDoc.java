@@ -11,7 +11,8 @@ public class ConceptDoc implements Comparable<ConceptDoc>{
 	private String text;
 	private ConceptVector c;
 	private float score;
-	public ConceptDoc(String text, ConceptVector c, float score) {
+	private int id;
+	public ConceptDoc(String text, ConceptVector c, float score, int id) {
 		super();
 		this.text = text;
 		this.c = c;
@@ -34,6 +35,13 @@ public class ConceptDoc implements Comparable<ConceptDoc>{
 	}
 	public void setScore(float score) {
 		this.score = score;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	@Override
 	public int compareTo(ConceptDoc o) {

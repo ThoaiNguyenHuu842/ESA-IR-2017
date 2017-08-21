@@ -14,6 +14,7 @@ import be.vanoosten.esa.WikiFactory;
 import be.vanoosten.esa.tools.ConceptVector;
 import be.vanoosten.esa.tools.SemanticSimilarityTool;
 import be.vanoosten.esa.tools.Vectorizer;
+import luceneutil.ApplicationConstant;
 import luceneutil.ApplicationUtils;
 import vn.hus.nlp.tokenizer.VietTokenizer;
 
@@ -36,9 +37,7 @@ public class Test {
 	    return(directory.delete());
 	}
 	public static void main(String[] args) throws Exception {		
-		VietTokenizer vietTokenizer = new VietTokenizer();
-		String s = "Lê Thánh Tông được xem là một vị hoàng đế anh minh thời Hậu Lê";
-		System.out.println(ApplicationUtils.getTokenString(s));
+		System.out.println(ApplicationConstant.W*0.017551253 + (1 - ApplicationConstant.W)*0.42039964);
 		log.info("---xong---");
 	}
 

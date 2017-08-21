@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder.In;
+
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
@@ -43,7 +45,7 @@ public class MyLuncene extends MyLuceneBase {
 
 	}
 
-	public List<String> search(Query query, int maxHit) {
+	/*public List<String> search(Query query, int maxHit) {
 		List<String> listResult = new ArrayList<String>();
 		// search lucene
 		Directory directory;
@@ -58,7 +60,33 @@ public class MyLuncene extends MyLuceneBase {
 				org.apache.lucene.document.Document document = indexSearcher.doc(scoreDoc.doc);
 				String text = document.get("TEXT").toString();
 				int length = text.split(" ").length;
-				listResult.add(text + "; sim = " + scoreDoc.score+"; id ="+document.get("ID").toString());
+				listResult.add(text + "; sim = " + scoreDoc.score);
+			}
+			indexReader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listResult;
+	}*/
+	
+	public List<ConceptDoc> search(Query query, int maxHit) {
+		List<ConceptDoc> listResult = new ArrayList<ConceptDoc>();
+		// search lucene
+		Directory directory;
+		try {
+			directory = FSDirectory.open(new File(indexPath));
+			IndexReader indexReader = DirectoryReader.open(directory);
+			IndexSearcher indexSearcher = new IndexSearcher(indexReader);
+			TopScoreDocCollector collector = TopScoreDocCollector.create(maxHit, true);
+			indexSearcher.search(query, collector);
+			ScoreDoc[] hitsDocs = collector.topDocs().scoreDocs;
+			for (ScoreDoc scoreDoc : hitsDocs) {
+				org.apache.lucene.document.Document document = indexSearcher.doc(scoreDoc.doc);
+				String text = document.get("TEXT").toString();
+				int id = Integer.parseInt(document.get("ID").toString());
+				ConceptDoc conceptDoc = new ConceptDoc(text, null, scoreDoc.score, id);
+				listResult.add(conceptDoc);
 			}
 			indexReader.close();
 		} catch (IOException e) {
@@ -67,5 +95,4 @@ public class MyLuncene extends MyLuceneBase {
 		}
 		return listResult;
 	}
-
 }
