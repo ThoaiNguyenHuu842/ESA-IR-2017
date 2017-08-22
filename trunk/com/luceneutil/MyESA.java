@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -18,12 +19,14 @@ import be.vanoosten.esa.WikiAnalyzer;
 import be.vanoosten.esa.WikiFactory;
 import be.vanoosten.esa.tools.ConceptVector;
 import be.vanoosten.esa.tools.Vectorizer;
+import tblucene2014.MyBean;
 
 /**
  * @author ThoaiNH
  * create Jul 18, 2017
  */
 public class MyESA implements Serializable{
+	private static Logger log = Logger.getLogger(MyESA.class);
 	//conept index
 	public static List<ConceptDoc> conceptIndex = new ArrayList<ConceptDoc>();
 	private Vectorizer vectorizer;
@@ -50,6 +53,7 @@ public class MyESA implements Serializable{
 		try {
 			ConceptVector conceptVector = vectorizer.vectorize(text);
 			ConceptDoc conceptDoc = new ConceptDoc(text, conceptVector, 0, id);
+			log.info(conceptVector.topConcepts(10));
 			conceptIndex.add(conceptDoc);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

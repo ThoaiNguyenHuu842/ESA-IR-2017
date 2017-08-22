@@ -97,6 +97,7 @@ public class MyBean implements Serializable {
 						else
 							text = jsonArrayDocs.getString(i);
 						log.info("---indexing:" + text);
+						log.info("--text length:"+text.length());
 						luncene.add(text, i + 1);// BOW index
 						myESA.addToIndex(text, i + 1);// ESA index limit 100 concepts
 					}
@@ -177,6 +178,7 @@ public class MyBean implements Serializable {
 				txtResult = "";
 				for (ConceptDoc c : result) {
 					txtResult += c.getText() + "; sim = " + c.getScore();
+					txtResult += "\n";
 					txtResult += "\n";
 				}
 				log.info(txtResult);

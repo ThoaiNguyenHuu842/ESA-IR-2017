@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -57,23 +59,15 @@ import static org.apache.lucene.util.Version.LUCENE_48;
 public class Main {
 	private static Logger log = Logger.getLogger(Main.class);
     public static void main(String[] args) throws IOException, ParseException {
-        /*
-        String indexPath = String.join(File.separator, "D:", "Development", "esa", "nlwiki");
-        File wikipediaDumpFile = new File(String.join(File.separator, "D:", "Downloads", "nlwiki", "nlwiki-20140611-pages-articles-multistream.xml.bz2"));
-        String startTokens = "geheim anoniem auteur verhalen lezen schrijven wetenschappelijk artikel peer review";
-        */
-        WikiFactory factory = new EnwikiFactory();
-        File indexPath = factory.getIndexRootPath();
-        File wikipediaDumpFile = factory.getWikipediaDumpFile();
-        String startTokens = "secret anonymous author stories read write scientific article peer review";
-        CharArraySet stopWords = factory.getStopWords();
-
-        File termDocIndexDirectory = factory.getTermDocIndexDirectory();
-        File conceptTermIndexDirectory = factory.getConceptTermIndexDirectory();
-
-        // The following lines are commented, because they can take a looong time.
-        // indexing(termDocIndexDirectory, wikipediaDumpFile, stopWords);
-        // createConceptTermIndex(termDocIndexDirectory, conceptTermIndexDirectory);
+    	  String c= "hjdg$h&jk8^i0ssh6";
+          Pattern pt = Pattern.compile("[^a-zA-Z0-9]");
+          Matcher match= pt.matcher(c);
+          while(match.find())
+          {
+              String s= match.group();
+              c=c.replaceAll("\\"+s, "");
+          }
+          System.out.println(c);
     }
 
     /**
