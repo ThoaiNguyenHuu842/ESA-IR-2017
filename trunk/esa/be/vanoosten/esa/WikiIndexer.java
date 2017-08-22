@@ -106,7 +106,7 @@ public class WikiIndexer extends DefaultHandler implements AutoCloseable {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
     	//index only n concepts to test tokenizer VietName sentences
-    	if(numIndexed == 70000)
+    	if(numIndexed == 85000)
     	{
     		try {
 				indexWriter.close();
@@ -174,7 +174,7 @@ public class WikiIndexer extends DefaultHandler implements AutoCloseable {
             return false;
         }
         //đánh từ chị mục thứ 8000
-        if(numIndexed > 55000){
+        if(numIndexed >= 80000){
 	        Document doc = new Document();
 	        doc.add(new StoredField(TITLE_FIELD, title));
 	        Analyzer analyzer = indexWriter.getAnalyzer();
@@ -182,7 +182,7 @@ public class WikiIndexer extends DefaultHandler implements AutoCloseable {
 	        	log.info("---getTokenString");
 	        	String docToken = ApplicationUtils.getTokenString(wikiText);
 	        	try {
-					Thread.sleep(2000);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

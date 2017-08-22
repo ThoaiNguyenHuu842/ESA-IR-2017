@@ -13,9 +13,11 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
@@ -52,11 +54,14 @@ public class Vectorizer implements AutoCloseable {
     }
 
     public ConceptVector vectorize(String text) throws ParseException, IOException {
-        Query query = null;
+       /* Query query = null;
         if(ApplicationConstant.TOKENIZED_WIKI_CONTENT)
         	query = queryParser.parse(ApplicationUtils.getTokenString(text));
         else
-        	query = queryParser.parse(text);
+        	query = queryParser.parse(text);*/
+	    BooleanQuery query = new BooleanQuery(); 
+	    query.setMaxClauseCount(100000);
+	    query.add(queryParser.parse(text), Occur.SHOULD);
         TopDocs td = searcher.search(query, conceptCount);
         return new ConceptVector(td, indexReader);
     }
