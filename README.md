@@ -38,6 +38,6 @@ Experimental search screen with the following functions:
 3. MORAG search: combined ESA and BOW search based on W . parameter
 4. Explanation: show scores, concept vectors of documents and queries, general concepts
 
-![img_3.png](img_3.png)
-
 ![img_4.png](img_4.png)
+
+![img_5.png](img_5.png)
